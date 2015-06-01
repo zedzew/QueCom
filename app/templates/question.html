@@ -1,0 +1,18 @@
+{% block question %}
+<div class="panel-default">
+    <div class="well well-lg">
+    <table class="table table-bordered">
+        <ul class="nav">
+            <li><h4><b> Question: {{ question.question }}</b></h4></li>
+            <li><p class="text-left help-block">
+            Posted by: {{ question.get_user() }}</p></li>
+            <b><li>Comments: <span class="btn btn-danger btn-xs" aria-expanded="red"> {{ question.comments|count }}</span></li></b>
+            
+        </ul>
+    </table>
+        <a href="comment/{{ question.id }}">
+            <button type="button" class="btn btn-primary btn-md"> More </button>
+        </a>
+    </div>
+</div>
+{% endblock %}

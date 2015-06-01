@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="col-md-7 col-md-offset-3">
+<div class="container-fluid">
+    
+    <div class="row">
+
+            
+            <div class="panel-default">
+                <div class="panel-heading"><h3><b>{{ question.question }}</b></h3></div>
+            <div class="well well-sm">
+                <div class="panel-body">
+                    <p>
+                        {{ question.details }}
+                    </p>
+                    <p class="text-right help-block">
+                        Posted by: {{ question.get_user() }}
+                    </p>
+                </div>
+            </div>
+            <div class="well well-sm">
+                
+                    
+                    {% if question.comments %}
+                    <p><b>Comments:</b></p>
+                        
+                            {% for comment in question.comments %}
+
+                                <li class="list-group-item">
+                                    {{ comment.comment }}
+                                    
+
+
+                                    {% if g.user.is_authenticated() %}
+                                            <a href="/like/{{ comment.id }}"> <span class="btn btn-primary btn-xs pull-right">Likes: {{ comment.likes }}</span></a>
+                                        {% endif %}
+                                    
+                                    <p class="text-right help-block">
+                                        Author: {{ comment.get_user() }}
+                                    </p>
+
+                                </li>
+                            {% endfor %}
+                        
+                    {% endif %}
+                
+            
+
+        <div>
+            {% if g.user.is_authenticated() %}
+            <form action="" method="post" name="login" class="form">
+                {{ form.csrf_token }}
+                    {% for field in form  %}
+                    {% if field.errors %}
+                        <ul class=" list-unstyled">
+                        {% for error in field.errors %}
+                          <li class="list-group-item-danger">{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        <div class="form-group has-error">
+                    {% else %}
+                        <div class="form-group ">
+                    {% endif %}
+                    {% if field.type != "CSRFTokenField" %}
+                        <label >{{ field.label() }} </label>
+                    {% endif %}
+                        {{ field(class="form-control") }}
+                    </div>
+                    <br>
+                    {% endfor %}
+                <input class="btn btn-primary btn-md" type="submit" value="Comment">
+            </form>
+            {% endif %}
+        </div>
+        </div>
+</div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
