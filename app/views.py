@@ -10,8 +10,7 @@ from database import db_session
 @app.route('/index')
 def questions():
     questions = Questions.query.all()
-    return render_template('index.html', title='Question Test',
-                           questions=questions)
+    return render_template('index.html', title='Question', questions=questions)
 
 
 @app.route('/add_question', methods=['GET', 'POST'])
