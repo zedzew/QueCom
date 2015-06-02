@@ -11,13 +11,9 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
     password = Column(String)
-    asked_questions = relationship('Questions')
+    add_questions = relationship('Questions')
     comments = relationship('Comments')
     like = relationship('Like')
-
-    def __init__(self, name, password):
-        self.name = name
-        self.password = password
 
     def __repr__(self):
         return '<User %s>' % self.name
@@ -34,9 +30,13 @@ class User(Base):
     def get_id(self):
         return unicode(self.id)
 
+    def __init__(self, name, password):
+        self.name = name
+        self.password = password
 
 class Questions(Base):
     __tablename__ = 'questions'
+
     id = Column(Integer, primary_key=True)
     question = Column(String)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
@@ -52,6 +52,7 @@ class Questions(Base):
 
 class Comments(Base):
     __tablename__ = 'comments'
+
     id = Column(Integer, primary_key=True)
     comment = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
@@ -70,6 +71,7 @@ class Comments(Base):
 
 class Like(Base):
     __tablename__ = 'likes'
+
     id = Column(Integer, primary_key=True)
     comment = Column(Integer, ForeignKey('comments.id'), nullable=False)
     user = Column(Integer, ForeignKey('users.id'), nullable=False)
